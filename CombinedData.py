@@ -19,8 +19,8 @@ myMap = Basemap(ax = ax, # Associate it with the SubplotAxes ax
 # Put standard features on the map
 ###
 myMap.drawcoastlines() # draw coastlines.
-myMap.drawmapboundary(fill_color='aqua') # background fill becomes ocean
-myMap.fillcontinents(color='coral',lake_color='aqua', zorder=0) # fills in the land
+myMap.drawmapboundary(fill_color='#505050') # background fill becomes ocean
+myMap.fillcontinents(color='#000000',lake_color='#505050', zorder=0) # fills in the land
 myMap.drawmeridians(range(-180,180,30), labels=[1,0,0,1], labelstyle='+/-') #label left/bottom
 myMap.drawparallels(range(-90,90,30), labels=[1,0,0,1], labelstyle='+/-')
 
@@ -56,14 +56,14 @@ x, y = myMap(longEarth, latEarth) # convert to feet, the units of the map
 ###
 # Plot data
 ###
-ax.scatter(x, y, s=1, color='red', alpha=0.2)
+ax.scatter(x, y, s=1, color='#FF0033', alpha=0.2)
 
 
 #####
 # Get data from the CSV file
 ####
 directory = os.path.dirname(os.path.abspath(__file__))
-filename = os.path.join(directory, 'GLC03122015.csv') 
+filename = os.path.join(directory, 'Landslide Data.csv') 
 datafile = open(filename,'rb')
 
 # Create empty lists to hold latitude and longitude data
@@ -87,5 +87,34 @@ x, y = myMap(longLand, latLand) # convert to feet, the units of the map
 ###
 # Plot data
 ###
-ax.scatter(x, y, s=1, color='blue', alpha=0.2)
+ax.scatter(x, y, s=1, color='#00FFFF', alpha=0.2)
+
+#####
+# Get data from the CSV file
+####
+directory = os.path.dirname(os.path.abspath(__file__))
+filename = os.path.join(directory, 'Tsunami Data.csv') 
+datafile = open(filename,'rb')
+
+# Create empty lists to hold latitude and longitude data
+latTsu = []
+longTsu = []
+# Read data from the CSV file
+datareader = csv.reader(datafile) 
+headers = datareader.next() # read first row and store separately
+for row in datareader:
+    if float(row[5]) >= 2007 and float(row[5]) <= 2016:
+        latTsu.append(float(row[16]))    
+        longTsu.append(float(row[17])) 
+    
+#####
+# Transform data
+#####
+x, y = myMap(longTsu, latTsu) # convert to feet, the units of the map
+    
+###
+# Plot data
+###
+ax.scatter(x, y, s=1, c='#00FF66', alpha=0.2)
+
 fig.show()
