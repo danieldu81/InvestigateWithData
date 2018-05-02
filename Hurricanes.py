@@ -46,7 +46,6 @@ datareader = csv.reader(datafile)
 headers = datareader.next() # read first row and store separately
 for row in datareader:
     if row[1] is not "UNNAMED" and row[1] is not "" and row[4] is not "" and row[5] is not "":
-        print row
         latit = row[4]
         longit = row[5]
         latHurr.append(float(latit[:len(latit)-1]))    
