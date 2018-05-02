@@ -35,23 +35,23 @@ ax.set_ylabel('Degrees Latitude\n\n')
 # Get data from the CSV file
 ####
 directory = os.path.dirname(os.path.abspath(__file__))
-filename = os.path.join(directory, 'Earthquake Data.csv') 
+filename = os.path.join(directory, 'Landslide Data.csv') 
 datafile = open(filename,'rb')
 
 # Create empty lists to hold latitude and longitude data
-latEarth = []
-longEarth = []
+latLand = []
+longLand = []
 # Read data from the CSV file
 datareader = csv.reader(datafile) 
 headers = datareader.next() # read first row and store separately
 for row in datareader:
-    latEarth.append(float(row[2]))    
-    longEarth.append(float(row[3])) 
+    latLand.append(float(row[32]))    
+    longLand.append(float(row[33])) 
     
 #####
 # Transform data
 #####
-x, y = myMap(longEarth, latEarth) # convert to feet, the units of the map
+x, y = myMap(longLand, latLand) # convert to feet, the units of the map
     
 ###
 # Plot data
