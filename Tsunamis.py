@@ -45,8 +45,9 @@ longTsu = []
 datareader = csv.reader(datafile) 
 headers = datareader.next() # read first row and store separately
 for row in datareader:
-    latTsu.append(float(row[16]))    
-    longTsu.append(float(row[17])) 
+    if float(row[5]) >= 2007 and float(row[5]) <= 2016:
+        latTsu.append(float(row[16]))    
+        longTsu.append(float(row[17])) 
     
 #####
 # Transform data
@@ -56,5 +57,5 @@ x, y = myMap(longTsu, latTsu) # convert to feet, the units of the map
 ###
 # Plot data
 ###
-ax.scatter(x, y, s=20, c='#ffff00')
+ax.scatter(x, y, s=5, c='#ffff00')
 fig.show()
