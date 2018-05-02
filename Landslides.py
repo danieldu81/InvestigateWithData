@@ -35,7 +35,7 @@ ax.set_ylabel('Degrees Latitude\n\n')
 # Get data from the CSV file
 ####
 directory = os.path.dirname(os.path.abspath(__file__))
-filename = os.path.join(directory, 'Landslide Data.csv') 
+filename = os.path.join(directory, 'GLC03122015.csv') 
 datafile = open(filename,'rb')
 
 # Create empty lists to hold latitude and longitude data
@@ -45,8 +45,9 @@ longLand = []
 datareader = csv.reader(datafile) 
 headers = datareader.next() # read first row and store separately
 for row in datareader:
-    latLand.append(float(row[32]))    
-    longLand.append(float(row[33])) 
+    print row
+    latLand.append(float(row[len(row)-2]))
+    longLand.append(float(row[len(row)-1]))
     
 #####
 # Transform data
@@ -56,5 +57,5 @@ x, y = myMap(longLand, latLand) # convert to feet, the units of the map
 ###
 # Plot data
 ###
-ax.scatter(x, y, s=20, c='#ffff00')
+ax.scatter(x, y, s=5, c='#ffff00')
 fig.show()
