@@ -56,5 +56,5 @@ x, y = myMap(longLand, latLand) # convert to feet, the units of the map
 ###
 # Plot data
 ###
-ax.scatter(x, y, s=20, c='#ffff00')
+ax.scatter(x, y, s=5, c='#ffff00')
 fig.show()
