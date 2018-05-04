@@ -28,7 +28,7 @@ myMap.drawparallels(range(-90,90,30), labels=[1,0,0,1], labelstyle='+/-')
 ###
 # Label the map
 ###
-ax.set_title('Global Occurrences of Landslides, Earthquakes Over 5.5 in Magnitude, Tsunamis, and Hurricanes From 2007-2016')
+ax.set_title('Global Occurrences of Landslides, Earthquakes Over 5.5 in Magnitude, Tsunamis, and Hurricanes From 2007-2015') #set title and axes labels
 ax.set_xlabel('\n\nDegrees Longitude')
 ax.set_ylabel('Degrees Latitude\n\n')
 
@@ -50,8 +50,8 @@ for row in datareader:
         entry = row[3]
         date = float(entry[6:10])
         if date >= 2007 and date <= 2015:
-            latLand.append(float(row[len(row)-2]))
-            longLand.append(float(row[len(row)-1]))
+            latLand.append(float(row[len(row)-2])) #add latitude of landslide
+            longLand.append(float(row[len(row)-1])) #add longitude of landslide
 
 #####
 # Get data from the CSV file
@@ -71,8 +71,8 @@ for row in datareader:
         entry = row[0]
         date = float(entry[-4:])
         if date >= 2007 and date <= 2015:
-            latEarth.append(float(row[2])) 
-            longEarth.append(float(row[3])) 
+            latEarth.append(float(row[2])) #add latitude of earthquake
+            longEarth.append(float(row[3])) #add longitude of earthquake
     
 #####
 # Transform data
@@ -109,8 +109,8 @@ datareader = csv.reader(datafile)
 headers = datareader.next() # read first row and store separately
 for row in datareader:
     if float(row[5]) >= 2007 and float(row[5]) <= 2015:
-        latTsu.append(float(row[16]))    
-        longTsu.append(float(row[17])) 
+        latTsu.append(float(row[16])) #add latitude of tsunami
+        longTsu.append(float(row[17])) #add longitude of tsunami
     
 #####
 # Transform data
@@ -147,7 +147,7 @@ x_a, y_a = myMap(lon_a, lat_a)
 x_p, y_p =myMap(lon_p, lat_p)
 ax.scatter(x_a+x_p, y_a+y_p, s=0.5, c='#FFFF00', alpha=0.2)
 
-blue_patch = mpatches.Patch(color='#00FFFF', label='Landslides')
+blue_patch = mpatches.Patch(color='#00FFFF', label='Landslides') #create legend
 red_patch = mpatches.Patch(color='#FF0033', label='Earthquakes')
 green_patch = mpatches.Patch(color='#00FF66', label='Tsunamis')
 yellow_patch = mpatches.Patch(color='#FFFF00', label='Hurricanes')

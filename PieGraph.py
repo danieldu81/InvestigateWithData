@@ -15,14 +15,13 @@ longLand = []
 # Read data from the CSV file
 datareader = csv.reader(datafile) 
 headers = datareader.next() # read first row and store separately
-c = 0
 for row in datareader:
     if row[3] is not "":
         entry = row[3]
         date = float(entry[6:10])
         if date >= 2007 and date <= 2015:
-            latLand.append(float(row[len(row)-2]))
-            longLand.append(float(row[len(row)-1]))
+            latLand.append(float(row[len(row)-2])) #add latitude of landslide
+            longLand.append(float(row[len(row)-1])) #add longitude of landslide
 
 #####
 # Get data from the CSV file
@@ -42,8 +41,8 @@ for row in datareader:
         entry = row[0]
         date = float(entry[-4:])
         if date >= 2007 and date <= 2015:
-            latEarth.append(float(row[2])) 
-            longEarth.append(float(row[3])) 
+            latEarth.append(float(row[2])) #add latitude of earthquake
+            longEarth.append(float(row[3])) #add longitude of earthquake
             
 #####
 # Get data from the CSV file
@@ -60,8 +59,8 @@ datareader = csv.reader(datafile)
 headers = datareader.next() # read first row and store separately
 for row in datareader:
     if float(row[5]) >= 2007 and float(row[5]) <= 2015:
-        latTsu.append(float(row[16]))    
-        longTsu.append(float(row[17])) 
+        latTsu.append(float(row[16])) #add latitude of tsunami 
+        longTsu.append(float(row[17])) #add longitude of tsunami
         
 # get data from HURDAT file
 def parse_hurdat(filename):
@@ -82,15 +81,16 @@ def parse_hurdat(filename):
 
 lat_a, lon_a = parse_hurdat('hurdat-atlantic.csv')
 lat_p, lon_p = parse_hurdat('hurdat-pacific.csv')            
-            
+      
+#set labels for the four categories  
 labels = ['Landslides', 'Earthquakes', 'Tsunamis', 'Hurricanes']
 
-total = len(latEarth) + len(latLand) + len(latTsu) + len(lat_a) + len(lat_p)
-sizes = [len(latLand), len(latEarth), len(latTsu), len(lat_a)+len(lat_p)]
-colors = ['#00FFFF', '#FF0033', '#00FF66', '#FFFF00']
-patches, texts = plt.pie(sizes, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90)
+total = len(latEarth) + len(latLand) + len(latTsu) + len(lat_a) + len(lat_p) #sum total number of geologic events
+sizes = [len(latLand), len(latEarth), len(latTsu), len(lat_a)+len(lat_p)] #divide pie graph into percentages
+colors = ['#00FFFF', '#FF0033', '#00FF66', '#FFFF00'] #colorize pie graph
+patches, texts = plt.pie(sizes, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90) #display percentages
 plt.legend(patches, labels, loc="best")
 plt.axis('equal')
 plt.tight_layout()
-plt.title('Percentage of Each Geological Event Over Years 2007-2016')
+plt.title('Percentage of Each Geological Event Over Years 2007-2015')
 plt.show()

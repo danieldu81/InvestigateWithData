@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import os.path
 import csv
 
+#create empty list to store each date added later
 dates = []
 
 #####
@@ -20,13 +21,14 @@ for row in datareader:
         entry = row[3]
         date = float(entry[6:10])
         if date >= 2007 and date <= 2016:
-            dates.append(date)     
+            dates.append(date) #add date to list if in range  
  
+#plot histogram of frequency of tsunamis for each year
 fig, ax = plt.subplots(1, 1)
 ax.hist(dates, bins=range(2007, 2016))
 
 # properly label the figure and show it for the world to see
-ax.set_title('Landslide Frequency')
+ax.set_title('Landslide Frequency From 2007-2015')
 ax.set_xlabel('Year')
 ax.set_ylabel('Frequency')
  
