@@ -27,7 +27,7 @@ myMap.drawparallels(range(-90,90,30), labels=[1,0,0,1], labelstyle='+/-')
 ###
 # Label the map
 ###
-ax.set_title('Global Occurrences of Landslides vs. Earthquakes Over 5.5 in Magnitude From 2007-2016')
+ax.set_title('Global Occurrences of Landslides, Earthquakes Over 5.5 in Magnitude, Tsunamis, and Hurricanes From 2007-2016')
 ax.set_xlabel('\n\nDegrees Longitude')
 ax.set_ylabel('Degrees Latitude\n\n')
 
@@ -45,8 +45,12 @@ longEarth = []
 datareader = csv.reader(datafile) 
 headers = datareader.next() # read first row and store separately
 for row in datareader:
-    latEarth.append(float(row[2]))    
-    longEarth.append(float(row[3])) 
+    if len(row[0]) == 10:
+        entry = row[0]
+        date = float(entry[-4:])
+        if date >= 2007 and date <= 2016:
+            latEarth.append(float(row[2])) 
+            longEarth.append(float(row[3])) 
     
 #####
 # Transform data
@@ -56,7 +60,7 @@ x, y = myMap(longEarth, latEarth) # convert to feet, the units of the map
 ###
 # Plot data
 ###
-ax.scatter(x, y, s=1, color='#FF0033', alpha=0.2)
+ax.scatter(x, y, s=0.5, color='#FF0033', alpha=0.2)
 
 
 #####
@@ -74,10 +78,12 @@ datareader = csv.reader(datafile)
 headers = datareader.next() # read first row and store separately
 c = 0
 for row in datareader:
-    if c%2==0:
-        latLand.append(float(row[len(row)-2]))
-        longLand.append(float(row[len(row)-1]))
-    c+=1
+    if row[3] is not "":
+        entry = row[3]
+        date = float(entry[6:10])
+        if date >= 2007 and date <= 2016:
+            latLand.append(float(row[len(row)-2]))
+            longLand.append(float(row[len(row)-1]))
  
 #####
 # Transform data
@@ -87,7 +93,7 @@ x, y = myMap(longLand, latLand) # convert to feet, the units of the map
 ###
 # Plot data
 ###
-ax.scatter(x, y, s=1, color='#00FFFF', alpha=0.2)
+ax.scatter(x, y, s=0.5, color='#00FFFF', alpha=0.2)
 
 #####
 # Get data from the CSV file
@@ -115,6 +121,29 @@ x, y = myMap(longTsu, latTsu) # convert to feet, the units of the map
 ###
 # Plot data
 ###
-ax.scatter(x, y, s=1, c='#00FF66', alpha=0.2)
+ax.scatter(x, y, s=0.5, c='#00FF66', alpha=0.2)
+
+# get data from HURDAT file
+def parse_hurdat(filename):
+    hurdat = map(lambda x: [y.strip() for y in x],
+                 [line.split(',') for line in open(filename)])
+    hurdat = [(0, [0, 0, 0, 0, 0])] + zip(range(1, len(hurdat)+1), hurdat)
+    # take only one sample coordinate from each hurricane
+    data = filter(lambda x: len(hurdat[x[0]-1][1]) < 5, hurdat)
+    coords = map(lambda x: (x[1][4], x[1][5]), data)
+    # transform ('65N', '8.5W') => (+65, -8.5)
+    lat = map(lambda x: float(x[0][:-1]) if x[0][-1] == 'N'
+              else -1*float(x[0][:-1]), coords)
+    lon = map(lambda x: float(x[1][:-1]) if x[1][-1] == 'E'
+              else -1*float(x[1][:-1]), coords)
+    return (lat, lon)
+
+lat_a, lon_a = parse_hurdat('hurdat-atlantic.csv')
+lat_p, lon_p = parse_hurdat('hurdat-pacific.csv')
+
+# plot and show
+x_a, y_a = myMap(lon_a, lat_a)
+x_p, y_p =myMap(lon_p, lat_p)
+ax.scatter(x_a+x_p, y_a+y_p, s=0.5, c='#ffff00')
 
 fig.show()

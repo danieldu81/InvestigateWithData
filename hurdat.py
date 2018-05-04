@@ -1,10 +1,11 @@
-import basemap as bm  # since I installed and symlinked basemap sketchily
+#import basemap as bm  # since I installed and symlinked basemap sketchily
                       # you probably need 'import mpl_toolkits.basemap as bm'
 import matplotlib.pyplot as plt
+from mpl_toolkits.basemap import Basemap
 
 # setup map
 fig, ax = plt.subplots(1,1, figsize=(16,8))
-world = bm.Basemap(ax=ax, projection='cea', resolution='c', lat_0=0., lon_0=0.,
+world = Basemap(ax=ax, projection='cea', resolution='c', lat_0=0., lon_0=0.,
                    llcrnrlat=-90, urcrnrlat=90, llcrnrlon=-180, urcrnrlon=180)
 world.drawcoastlines()
 world.drawmapboundary(fill_color='aqua')
@@ -30,8 +31,8 @@ def parse_hurdat(filename):
               else -1*float(x[1][:-1]), coords)
     return (lat, lon)
 
-lat_a, lon_a = parse_hurdat('hurdat-atlantic.dat')
-lat_p, lon_p = parse_hurdat('hurdat-pacific.dat')
+lat_a, lon_a = parse_hurdat('hurdat-atlantic.csv')
+lat_p, lon_p = parse_hurdat('hurdat-pacific.csv')
 
 # plot and show
 x_a, y_a = world(lon_a, lat_a)
