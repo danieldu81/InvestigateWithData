@@ -77,7 +77,6 @@ longLand = []
 # Read data from the CSV file
 datareader = csv.reader(datafile) 
 headers = datareader.next() # read first row and store separately
-c = 0
 for row in datareader:
     if row[3] is not "":
         entry = row[3]
