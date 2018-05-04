@@ -20,7 +20,7 @@ for row in datareader:
     if row[3] is not "":
         entry = row[3]
         date = float(entry[6:10])
-        if date >= 2007 and date <= 2016:
+        if date >= 2007 and date <= 2015:
             latLand.append(float(row[len(row)-2]))
             longLand.append(float(row[len(row)-1]))
 
@@ -41,7 +41,7 @@ for row in datareader:
     if len(row[0]) == 10:
         entry = row[0]
         date = float(entry[-4:])
-        if date >= 2007 and date <= 2016:
+        if date >= 2007 and date <= 2015:
             latEarth.append(float(row[2])) 
             longEarth.append(float(row[3])) 
             
@@ -59,7 +59,7 @@ longTsu = []
 datareader = csv.reader(datafile) 
 headers = datareader.next() # read first row and store separately
 for row in datareader:
-    if float(row[5]) >= 2007 and float(row[5]) <= 2016:
+    if float(row[5]) >= 2007 and float(row[5]) <= 2015:
         latTsu.append(float(row[16]))    
         longTsu.append(float(row[17])) 
         

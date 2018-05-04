@@ -23,7 +23,7 @@ fig, ax = plt.subplots(1, 1)
 ax.hist(hc)
 
 # properly label the figure and show it for the world to see
-ax.set_title('Hurry-Cain Free-Quincy')
+ax.set_title('Hurricane Frequency')
 ax.set_xlabel('Year')
 ax.set_ylabel('Frequency')
 plt.show()
