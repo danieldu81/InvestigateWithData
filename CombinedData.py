@@ -2,6 +2,7 @@ from mpl_toolkits.basemap import Basemap
 import matplotlib.pyplot as plt
 import os.path
 import csv
+import matplotlib.patches as mpatches
 
 fig, ax = plt.subplots(1,1, figsize=(16,8))
 
@@ -130,6 +131,8 @@ def parse_hurdat(filename):
     hurdat = [(0, [0, 0, 0, 0, 0])] + zip(range(1, len(hurdat)+1), hurdat)
     # take only one sample coordinate from each hurricane
     data = filter(lambda x: len(hurdat[x[0]-1][1]) < 5, hurdat)
+    # take only proper hurricanes, not tropical storms
+    data = filter(lambda x: x[1][3] == 'HU', data)
     coords = map(lambda x: (x[1][4], x[1][5]), data)
     # transform ('65N', '8.5W') => (+65, -8.5)
     lat = map(lambda x: float(x[0][:-1]) if x[0][-1] == 'N'
@@ -144,6 +147,12 @@ lat_p, lon_p = parse_hurdat('hurdat-pacific.csv')
 # plot and show
 x_a, y_a = myMap(lon_a, lat_a)
 x_p, y_p =myMap(lon_p, lat_p)
-ax.scatter(x_a+x_p, y_a+y_p, s=0.5, c='#ffff00')
+ax.scatter(x_a+x_p, y_a+y_p, s=0.5, c='#FFFF00', alpha=0.2)
+
+blue_patch = mpatches.Patch(color='#00FFFF', label='Landslides')
+red_patch = mpatches.Patch(color='#FF0033', label='Earthquakes')
+green_patch = mpatches.Patch(color='#00FF66', label='Tsunamis')
+yellow_patch = mpatches.Patch(color='#FFFF00', label='Hurricanes')
+plt.legend(handles=[blue_patch, red_patch, green_patch, yellow_patch], loc=4, ncol=4)
 
 fig.show()
