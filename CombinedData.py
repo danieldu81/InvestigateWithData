@@ -19,9 +19,7 @@ myMap = Basemap(ax = ax, # Associate it with the SubplotAxes ax
 ###
 # Put standard features on the map
 ###
-myMap.drawcoastlines() # draw coastlines.
-myMap.drawmapboundary(fill_color='#505050') # background fill becomes ocean
-myMap.fillcontinents(color='#000000',lake_color='#505050', zorder=0) # fills in the land
+myMap.bluemarble() #uses NASA blue marble background
 myMap.drawmeridians(range(-180,180,30), labels=[1,0,0,1], labelstyle='+/-') #label left/bottom
 myMap.drawparallels(range(-90,90,30), labels=[1,0,0,1], labelstyle='+/-')
 
@@ -145,7 +143,7 @@ lat_p, lon_p = parse_hurdat('hurdat-pacific.csv')
 # plot and show
 x_a, y_a = myMap(lon_a, lat_a)
 x_p, y_p =myMap(lon_p, lat_p)
-ax.scatter(x_a+x_p, y_a+y_p, s=0.5, c='#FFFF00', alpha=0.2)
+ax.scatter(x_a+x_p, y_a+y_p, s=0.5, c='#FFFF00', alpha=0.8)
 
 blue_patch = mpatches.Patch(color='#00FFFF', label='Landslides') #create legend
 red_patch = mpatches.Patch(color='#FF0033', label='Earthquakes')

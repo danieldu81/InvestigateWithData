@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import os.path
 import csv
+import matplotlib.patches as mpatches
 
 #####
 # Get data from the CSV file
@@ -88,8 +89,12 @@ labels = ['Landslides', 'Earthquakes', 'Tsunamis', 'Hurricanes']
 total = len(latEarth) + len(latLand) + len(latTsu) + len(lat_a) + len(lat_p) #sum total number of geologic events
 sizes = [len(latLand), len(latEarth), len(latTsu), len(lat_a)+len(lat_p)] #divide pie graph into percentages
 colors = ['#00FFFF', '#FF0033', '#00FF66', '#FFFF00'] #colorize pie graph
-patches, texts = plt.pie(sizes, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90) #display percentages
-plt.legend(patches, labels, loc="best")
+patches = plt.pie(sizes, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90) #display percentages
+blue_patch = mpatches.Patch(color='#00FFFF', label='Landslides') #create legend
+red_patch = mpatches.Patch(color='#FF0033', label='Earthquakes')
+green_patch = mpatches.Patch(color='#00FF66', label='Tsunamis')
+yellow_patch = mpatches.Patch(color='#FFFF00', label='Hurricanes')
+plt.legend(handles=[blue_patch, red_patch, green_patch, yellow_patch], loc=2)
 plt.axis('equal')
 plt.tight_layout()
 plt.title('Percentage of Each Geological Event Over Years 2007-2015')
