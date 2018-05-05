@@ -19,6 +19,7 @@ def parse_hurdat(filename):
 
 # get a list of all hurricane years and plot as a histogram
 hc = parse_hurdat('hurdat-atlantic.csv') + parse_hurdat('hurdat-pacific.csv')
+hc = [x for x in hc if x>2006]
 fig, ax = plt.subplots(1, 1)
 ax.hist(hc)
 
